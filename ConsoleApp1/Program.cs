@@ -49,6 +49,43 @@ namespace ProductManagement
         private static readonly List<Product> _products = new List<Product>();
         static void Main(string[] args)
         {
+            Console.OutputEncoding = Encoding.UTF8;
+            Console.InputEncoding = Encoding.UTF8;
+            SeedData();
+            while (true)
+            {
+                Console.WriteLine("\n--- УЧЁТ ТОВАРОВ В МАГАЗИНЕ ---\n1. Показать все товары\n2. Добавить товар\n3. Удалить товар\n4. Заказать поставку товара\n5. Продать товар\n6. Поиск товаров\n0. Выход");
+                Console.Write("Выберите команду: ");
+                string choice = Console.ReadLine();
+                Console.WriteLine();
+
+                try
+                {
+                    switch (choice)
+                    {
+                        case "1": ShowAllProducts(); break;
+                        case "2": AddProduct(); break;
+                        case "3": DeleteProduct(); break;
+                        case "4": ReplenishProduct(); break;
+                        case "5": SellProduct(); break;
+                        case "6": SearchProducts(); break;
+                        case "0": Console.WriteLine("Программа завершена."); return;
+                        default: Console.WriteLine("Неверная команда. Попробуйте еще раз."); break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Ошибка: " + ex.Message);
+                }
+            }
+        }
+        private static void SeedData()
+        {
+            _products.Add(new Product("Смартфон", 45000, 10, Category.Electronics));
+            _products.Add(new Product("Молоко", 90, 50, Category.Food));
+            _products.Add(new Product("Джинсы", 3500, 15, Category.Clothing));
+            _products.Add(new Product("Ноутбук", 80000, 3, Category.Electronics));
+            _products.Add(new Product("Роман '1984'", 600, 0, Category.Books));
         }
     }
 }
