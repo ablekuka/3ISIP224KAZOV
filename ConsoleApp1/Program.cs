@@ -34,6 +34,19 @@ namespace ProductManagement
             Quantity = quantity;
             ProductCategory = category;
         }    
+        public void UpdateQuantity(int amount)
+        {
+            if (Quantity + amount < 0)
+                throw new InvalidOperationException("Недостаточно товара на складе.");
+            Quantity += amount;
+        }
+        public override string ToString()
+        {
+            string stockStatus = IsInStock ? "Есть в наличии" : "Нет на складе";
+            return string.Format("[ID: {0}] {1} | Категория: {2} | Цена: {3:C} | Кол-во: {4} шт. ({5})",
+                Id, Name, ProductCategory, Price, Quantity, stockStatus);
+        }
+        private static readonly List<Product> _products = new List<Product>();
         static void Main(string[] args)
         {
         }
