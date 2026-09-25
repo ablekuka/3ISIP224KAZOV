@@ -87,5 +87,115 @@ namespace ProductManagement
             _products.Add(new Product("Ноутбук", 80000, 3, Category.Electronics));
             _products.Add(new Product("Роман '1984'", 600, 0, Category.Books));
         }
+        private static void ShowAllProducts()
+        {
+            if (_products.Count == 0) { Console.WriteLine("Список товаров пуст."); return; }
+            foreach (var product in _products)
+            {
+                Console.WriteLine(product);
+            }
+        }
+        private static void PrintCategories()
+        {
+            foreach (var cat in Enum.GetValues(typeof(Category)))
+                Console.WriteLine((int)cat + ". " + cat);
+        }
+        private static void AddProduct()
+        {
+            Console.Write("Введите название товара: ");
+            string name = Console.ReadLine();
+            decimal price = ReadDecimal("Введите цену товара: ");
+            int quantity = ReadInt("Введите начальное количество: ");
+
+            Console.WriteLine("Выберите категорию:");
+            PrintCategories();
+            int catChoice = ReadInt("Номер категории: ");
+
+            if (!Enum.IsDefined(typeof(Category), catChoice))
+            {
+                Console.WriteLine("Некорректная категория. Товар не добавлен.");
+                return;
+            }
+
+            _products.Add(new Product(name, price, quantity, (Category)catChoice));
+            Console.WriteLine("Товар успешно добавлен!");
+        }
+
+        private static void DeleteProduct()
+        {
+            int id = ReadInt("Введите ID товара для удаления: ");
+            var product = _products.FirstOrDefault(p => p.Id == id);
+            if (product == null) { Console.WriteLine("Товар с таким ID не найден."); return; }
+            _products.Remove(product);
+            Console.WriteLine("Товар успешно удален.");
+        }
+        private static void ReplenishProduct()
+        {
+            int id = ReadInt("Введите ID товара для поставки: ");
+            var product = _products.FirstOrDefault(p => p.Id == id);
+            if (product == null) { Console.WriteLine("Товар с таким ID не найден."); return; }
+
+            int amount = ReadInt("Введите количество поставляемого товара: ");
+            if (amount <= 0) { Console.WriteLine("Количество для поставки должно быть больше нуля."); return; }
+
+            product.UpdateQuantity(amount);
+            Console.WriteLine("Поставка успешно оформлена!");
+        }
+
+        private static void SellProduct()
+        {
+            int id = ReadInt("Введите ID товара для продажи: ");
+            var product = _products.FirstOrDefault(p => p.Id == id);
+            if (product == null) { Console.WriteLine("Товар с таким ID не найден."); return; }
+
+            int amount = ReadInt("Введите количество для продажи: ");
+            if (amount <= 0) { Console.WriteLine("Количество для продажи должно быть больше нуля."); return; }
+            if (product.Quantity < amount) { Console.WriteLine("Невозможно продать. На складе всего " + product.Quantity + " шт."); return; }
+
+            product.UpdateQuantity(-amount);
+            Console.WriteLine("Продажа успешно совершена!");
+        }
+
+        private static void SearchProducts()
+        {
+            Console.WriteLine("Критерии поиска:\n1. По ID\n2. По названию\n3. По категории");
+            string choice = Console.ReadLine();
+
+            IEnumerable<Product> results = null;
+
+            if (choice == "1")
+            {
+                int id = ReadInt("Введите ID: ");
+                results = _products.Where(p => p.Id == id);
+            }
+            else if (choice == "2")
+            {
+                Console.Write("Введите название (или часть названия): ");
+                string nameQuery = Console.ReadLine();
+                string safeQuery = nameQuery != null ? nameQuery.ToLower() : "";
+                results = _products.Where(p => p.Name != null && p.Name.ToLower().Contains(safeQuery));
+            }
+            else if (choice == "3")
+            {
+                results = FindByCategory();
+            }
+
+            if (results == null) { Console.WriteLine("Неверный критерий."); return; }
+
+            var listResults = results.ToList();
+            if (listResults.Count == 0)
+            {
+                Console.WriteLine("Товары не найдены.");
+            }
+            else
+            {
+                Console.WriteLine("\nРезультаты поиска:");
+                foreach (var item in listResults)
+                {
+                    Console.WriteLine(item);
+                }
+            }
+        }
+
     }
 }
