@@ -33,7 +33,7 @@ namespace ProductManagement
             Price = price;
             Quantity = quantity;
             ProductCategory = category;
-        }    
+        }
         public void UpdateQuantity(int amount)
         {
             if (Quantity + amount < 0)
@@ -197,5 +197,32 @@ namespace ProductManagement
             }
         }
 
+        private static IEnumerable<Product> FindByCategory()
+        {
+            Console.WriteLine("Выберите категорию:");
+            PrintCategories();
+            int catChoice = ReadInt("Номер категории: ");
+            return _products.Where(p => (int)p.ProductCategory == catChoice);
+        }
+
+        private static int ReadInt(string message)
+        {
+            while (true)
+            {
+                Console.Write(message);
+                if (int.TryParse(Console.ReadLine(), out int result)) return result;
+                Console.WriteLine("Ошибка ввода! Введите целое число.");
+            }
+        }
+
+        private static decimal ReadDecimal(string message)
+        {
+            while (true)
+            {
+                Console.Write(message);
+                if (decimal.TryParse(Console.ReadLine(), out decimal result)) return result;
+                Console.WriteLine("Ошибка ввода! Введите числовое значение.");
+            }
+        }
     }
 }
