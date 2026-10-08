@@ -86,7 +86,22 @@ namespace ConsoleApp1
                         sentencesCount++;
                     }
                 }
+                if (char.IsLetter(c))
+                {
+                    char lowerC = char.ToLower(c);
+
+                    if (charFreq.ContainsKey(lowerC))
+                        charFreq[lowerC]++;
+                    else
+                        charFreq[lowerC] = 1;
+
+                    if (vowels.Contains(c.ToString()))
+                        vowelsCount++;
+                    else if (consonants.Contains(c.ToString()))
+                        consonantsCount++;
+                }
             }
+        }
         }
     }
 }
