@@ -8,7 +8,14 @@ namespace ConsoleApp1
 {
     internal class Program
     {
-        static void Main(string[] args)
+  
+            static List<string> historyTexts = new List<string>();
+            static List<int> historyWords = new List<int>();
+            static List<int> historySentences = new List<int>();
+            static List<string> historyShortest = new List<string>();
+            static List<string> historyLongest = new List<string>();
+
+            static void Main(string[] args)
         {
         }
     }
