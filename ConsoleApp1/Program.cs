@@ -124,6 +124,19 @@ namespace ConsoleApp1
                     longestWord = words[i];
                 }
             }
+            Console.WriteLine("\n--- РЕЗУЛЬТАТ АНАЛИЗА ---");
+            Console.WriteLine($"Количество слов: {wordsCount}");
+            Console.WriteLine($"Количество предложений: {sentencesCount}");
+            Console.WriteLine($"Количество гласных: {vowelsCount}");
+            Console.WriteLine($"Количество согласных: {consonantsCount}");
+            Console.WriteLine($"Самое короткое слово: {shortestWord}");
+            Console.WriteLine($"Самое длинное слово: {longestWord}");
+
+            Console.WriteLine("Частота букв:");
+            foreach (var item in charFreq)
+            {
+                Console.WriteLine($"  Буква '{item.Key}': {item.Value} раз(а)");
+            }
         }
     }
 }
