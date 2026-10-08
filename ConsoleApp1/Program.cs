@@ -44,7 +44,7 @@ namespace ConsoleApp1
                 }
                 else
                 {
-                    Console.WriteLine("Неверный ввод. Нажмите любую клавишу...");
+                    Console.WriteLine("Неверный ввод. Нажмите любую клавишу");
                     Console.ReadKey();
                 }
             }
@@ -137,7 +137,17 @@ namespace ConsoleApp1
             {
                 Console.WriteLine($"  Буква '{item.Key}': {item.Value} раз(а)");
             }
+            historyTexts.Add(text);
+            historyWords.Add(wordsCount);
+            historySentences.Add(sentencesCount);
+            historyShortest.Add(shortestWord);
+            historyLongest.Add(longestWord);
+
+            Console.WriteLine("\nНажмите любую клавишу для возврата в меню");
+            Console.ReadKey();
         }
+
     }
+}
 }
 
