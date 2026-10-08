@@ -65,7 +65,12 @@ namespace ConsoleApp1
                 }
                 Console.WriteLine($"Ошибка! Длина вашего текста всего {text.Length} симв. Попробуйте снова.\n");
             }
-
         }
+        int sentencesCount = 0;
+        int vowelsCount = 0;
+        int consonantsCount = 0;
+
+        string vowels = "аеёиоуыэюяАЕЁИОУЫЭЮЯaeiouyAEIOUY";
+        string consonants = "бвгджзйклмнпрстфхцчшщБВГДЖЗЙКЛМНПРСТФХЦЧШЩbcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ";
     }
 }
