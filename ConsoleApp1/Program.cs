@@ -49,5 +49,23 @@ namespace ConsoleApp1
                 }
             }
         }
+        static void ProcessText()
+        {
+            Console.Clear();
+            string text = "";
+
+            while (true)
+            {
+                Console.WriteLine("Введите текст (не менее 100 символов):");
+                text = Console.ReadLine();
+
+                if (text.Length >= 100)
+                {
+                    break;
+                }
+                Console.WriteLine($"Ошибка! Длина вашего текста всего {text.Length} симв. Попробуйте снова.\n");
+            }
+
+        }
     }
 }
