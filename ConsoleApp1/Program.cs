@@ -22,7 +22,7 @@ namespace ConsoleApp1
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine("=== МЕНЮ ===");
+                Console.WriteLine("МЕНЮ");
                 Console.WriteLine("1. Ввести новый текст");
                 Console.WriteLine("2. Вывести статистику по прошлым текстам");
                 Console.WriteLine("3. Выйти");
@@ -124,7 +124,7 @@ namespace ConsoleApp1
                     longestWord = words[i];
                 }
             }
-            Console.WriteLine("\n--- РЕЗУЛЬТАТ АНАЛИЗА ---");
+            Console.WriteLine("\nРЕЗУЛЬТАТ АНАЛИЗА");
             Console.WriteLine($"Количество слов: {wordsCount}");
             Console.WriteLine($"Количество предложений: {sentencesCount}");
             Console.WriteLine($"Количество гласных: {vowelsCount}");
@@ -146,8 +146,31 @@ namespace ConsoleApp1
             Console.WriteLine("\nНажмите любую клавишу для возврата в меню");
             Console.ReadKey();
         }
+        static void ShowHistory()
+        {
+            Console.Clear();
+            Console.WriteLine("ИСТОРИЯ ПРОШЛЫХ ТЕКСТОВ\n");
 
+            if (historyTexts.Count == 0)
+            {
+                Console.WriteLine("История пуста. Сначала обработайте хотя бы один текст.");
+            }
+            else
+            {
+                for (int i = 0; i < historyTexts.Count; i++)
+                {
+                    Console.WriteLine($"Текст №{i + 1}:");
+                    Console.WriteLine($"  Начало текста: \"{(historyTexts[i].Length > 40 ? historyTexts[i].Substring(0, 40) + "..." : historyTexts[i])}\"");
+                    Console.WriteLine($"  Слов: {historyWords[i]} | Предложений: {historySentences[i]}");
+                    Console.WriteLine($"  Самое короткое: {historyShortest[i]} | Самое длинное: {historyLongest[i]}");
+                    Console.WriteLine(new string('-', 30));
+                }
+            }
+
+            Console.WriteLine("\nНажмите любую клавишу для возврата в меню");
+            Console.ReadKey();
+        }
     }
 }
-}
+
 
