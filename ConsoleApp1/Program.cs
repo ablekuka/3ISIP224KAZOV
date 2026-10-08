@@ -71,7 +71,7 @@ namespace ConsoleApp1
 
             string vowels = "аеёиоуыэюяАЕЁИОУЫЭЮЯaeiouyAEIOUY";
             string consonants = "бвгджзйклмнпрстфхцчшщБВГДЖЗЙКЛМНПРСТФХЦЧШЩbcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ";
-            
+
             Dictionary<char, int> charFreq = new Dictionary<char, int>();
 
             for (int i = 0; i < text.Length; i++)
@@ -101,7 +101,30 @@ namespace ConsoleApp1
                         consonantsCount++;
                 }
             }
-        }
+            if (sentencesCount == 0 && text.Length > 0)
+            {
+                sentencesCount = 1;
+            }
+
+            char[] separators = { ' ', ',', '.', '!', '?', '-', ';', ':', '(', ')', '"' };
+            string[] words = text.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+
+            int wordsCount = words.Length;
+            string shortestWord = words[0];
+            string longestWord = words[0];
+
+            for (int i = 1; i < words.Length; i++)
+            {
+                if (words[i].Length < shortestWord.Length)
+                {
+                    shortestWord = words[i];
+                }
+                if (words[i].Length > longestWord.Length)
+                {
+                    longestWord = words[i];
+                }
+            }
         }
     }
 }
+
