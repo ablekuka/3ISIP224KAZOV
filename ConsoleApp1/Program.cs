@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
@@ -107,6 +105,30 @@ namespace ConsoleApp1
 
             foreach (var b in result)
                 Console.WriteLine($"[{b.Id}] {b.Author} — \"{b.Title}\" ({b.Genre})");
+        }
+        static void SortBooks()
+        {
+            Console.WriteLine("\n--- Сортировка ---");
+            Console.WriteLine("1. По названию");
+            Console.WriteLine("2. По году издания");
+            Console.Write("Выберите вариант: ");
+            string mode = Console.ReadLine();
+
+            var sorted = mode == "1" ? books.OrderBy(b => b.Title) : books.OrderBy(b => b.Year);
+
+            foreach (var b in sorted)
+                Console.WriteLine($"{b.Title} ({b.Year} г.)");
+        }
+
+        static void ShowMinMaxPrice()
+        {
+            if (!books.Any()) return;
+            Console.WriteLine("\n--- Статистика цен ---");
+            var max = books.OrderByDescending(b => b.Price).First();
+            var min = books.OrderBy(b => b.Price).First();
+
+            Console.WriteLine($"Самая дорогая: \"{max.Title}\" ({max.Price} руб.)");
+            Console.WriteLine($"Самая дешевая: \"{min.Title}\" ({min.Price} руб.)");
         }
     }
 }
