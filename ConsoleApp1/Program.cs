@@ -130,5 +130,14 @@ namespace ConsoleApp1
             Console.WriteLine($"Самая дорогая: \"{max.Title}\" ({max.Price} руб.)");
             Console.WriteLine($"Самая дешевая: \"{min.Title}\" ({min.Price} руб.)");
         }
+        static void GroupByAuthor()
+        {
+            Console.WriteLine("\n--- Группировка по авторам ---");
+            var groups = books.GroupBy(b => b.Author);
+            foreach (var g in groups)
+            {
+                Console.WriteLine($"Автор: {g.Key} — Книг в базе: {g.Count()}");
+            }
+        }
     }
 }
