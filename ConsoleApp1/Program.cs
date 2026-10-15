@@ -27,6 +27,37 @@ namespace ConsoleApp1
             books.Add(new Book { Id = idCounter++, Title = "Преступление и наказание", Author = "Фёдор Достоевский", Genre = "Роман", Year = 1866, Price = 800 });
             books.Add(new Book { Id = idCounter++, Title = "Мёртвые души", Author = "Николай Гоголь", Genre = "Поэма", Year = 1842, Price = 650 });
             books.Add(new Book { Id = idCounter++, Title = "Руслан и Людмила", Author = "Александр Пушкин", Genre = "Поэма", Year = 1820, Price = 450 });
+            while (true)
+            {
+                Console.WriteLine("\nГЛАВНОЕ МЕНЮ");
+                Console.WriteLine("1. Показать все книги");
+                Console.WriteLine("2. Добавить книгу");
+                Console.WriteLine("3. Удалить книгу по ID");
+                Console.WriteLine("4. Найти книгу");
+                Console.WriteLine("5. Сортировать книги");
+                Console.WriteLine("6. Самая дорогая и дешёвая книга");
+                Console.WriteLine("7. Группировать по авторам");
+                Console.WriteLine("0. Выход");
+                Console.Write("Выберите команду: ");
+
+                string cmd = Console.ReadLine();
+
+                if (cmd == "0") break;
+
+                try
+                {
+                    if (cmd == "1") ShowAll();
+                    else if (cmd == "2") AddBook();
+                    else if (cmd == "3") RemoveBook();
+                    else if (cmd == "4") SearchBook();
+                    else if (cmd == "5") SortBooks();
+                    else if (cmd == "6") ShowMinMaxPrice();
+                    else if (cmd == "7") GroupByAuthor();
+                    else Console.WriteLine("Неверная команда.");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Ошибка: " + ex.Message);
+                }
+            }
         }
-    }
-}
