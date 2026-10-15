@@ -61,3 +61,28 @@ namespace ConsoleApp1
                 }
             }
         }
+        static void ShowAll()
+        {
+            Console.WriteLine("\n--- Список всех книг ---");
+            foreach (var b in books)
+                Console.WriteLine($"[{b.Id}] {b.Author} — \"{b.Title}\" ({b.Genre}, {b.Year} г.) — {b.Price} руб.");
+        }
+
+        static void AddBook()
+        {
+            Console.WriteLine("\n--- Добавление книги ---");
+            Console.Write("Название: "); string title = Console.ReadLine();
+            Console.Write("Автор: "); string author = Console.ReadLine();
+            Console.Write("Жанр: "); string genre = Console.ReadLine();
+            Console.Write("Год: "); int year = int.Parse(Console.ReadLine());
+            Console.Write("Цена: "); decimal price = decimal.Parse(Console.ReadLine());
+
+            if (string.IsNullOrWhiteSpace(title) || string.IsNullOrWhiteSpace(author) || year <= 0 || price <= 0)
+            {
+                Console.WriteLine("Ошибка! Данные не могут быть пустыми, а год и цена должны быть больше 0.");
+                return;
+            }
+
+            books.Add(new Book { Id = idCounter++, Title = title, Author = author, Genre = genre, Year = year, Price = price });
+            Console.WriteLine("Книга успешно добавлена.");
+        }
