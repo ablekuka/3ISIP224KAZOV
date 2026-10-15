@@ -63,14 +63,14 @@ namespace ConsoleApp1
         }
         static void ShowAll()
         {
-            Console.WriteLine("\n--- Список всех книг ---");
+            Console.WriteLine("\nСписок всех книг");
             foreach (var b in books)
                 Console.WriteLine($"[{b.Id}] {b.Author} — \"{b.Title}\" ({b.Genre}, {b.Year} г.) — {b.Price} руб.");
         }
 
         static void AddBook()
         {
-            Console.WriteLine("\n--- Добавление книги ---");
+            Console.WriteLine("\nДобавление книги");
             Console.Write("Название: "); string title = Console.ReadLine();
             Console.Write("Автор: "); string author = Console.ReadLine();
             Console.Write("Жанр: "); string genre = Console.ReadLine();
@@ -86,3 +86,27 @@ namespace ConsoleApp1
             books.Add(new Book { Id = idCounter++, Title = title, Author = author, Genre = genre, Year = year, Price = price });
             Console.WriteLine("Книга успешно добавлена.");
         }
+        static void RemoveBook()
+        {
+            Console.WriteLine("\nУдаление книги");
+            Console.Write("Введите ID для удаления: ");
+            int id = int.Parse(Console.ReadLine());
+            Book book = books.FirstOrDefault(b => b.Id == id);
+
+            if (book != null) { books.Remove(book); Console.WriteLine("Книга удалена."); }
+            else Console.WriteLine("Книга с таким ID не найдена.");
+        }
+
+        static void SearchBook()
+        {
+            Console.WriteLine("\nПоиск книг");
+            Console.Write("Введите текст для поиска (по названию, автору или жанру): ");
+            string q = Console.ReadLine().ToLower();
+
+            var result = books.Where(b => b.Title.ToLower().Contains(q) || b.Author.ToLower().Contains(q) || b.Genre.ToLower().Contains(q));
+
+            foreach (var b in result)
+                Console.WriteLine($"[{b.Id}] {b.Author} — \"{b.Title}\" ({b.Genre})");
+        }
+    }
+}
