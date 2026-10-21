@@ -24,6 +24,27 @@ public class Student : Person
     public Student(string name, int age) : base(name, age) { }
 }
 
+
+
+public class Teacher : Person
+{
+    public Teacher(string name, int age) : base(name, age) { }
+}
+
+public class Course
+{
+    public string Title { get; set; }
+    public Teacher Teacher { get; set; }
+
+    public List<Student> Students { get; set; } = new List<Student>();
+
+    public Course(string title, Teacher teacher)
+    {
+        Title = title;
+        Teacher = teacher;
+    }
+}
+
 {
     internal class Program
     {
