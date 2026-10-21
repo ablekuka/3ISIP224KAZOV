@@ -144,5 +144,42 @@ public class Course
                     Console.WriteLine("Студент или курс не найдены.");
                 }
             }
+            else if (choice == "5")
+            {
+                Console.Write("Введите название курса: ");
+                string cTitle = Console.ReadLine();
+
+                Course course = allCourses.FirstOrDefault(c => c.Title == cTitle);
+
+                if (course != null)
+                {
+                    Console.WriteLine($"\nКурс: {course.Title}");
+                    Console.WriteLine($"Преподаватель: {course.Teacher.Name}");
+                    Console.WriteLine("Студенты на курсе:");
+                    foreach (var student in course.Students)
+                    {
+                        Console.WriteLine($"- {student.Name} ({student.Age} лет)");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Курс не найден.");
+                }
+            }
+            else if (choice == "6")
+            {
+                Console.WriteLine("\n=== ВСЕ СТУДЕНТЫ ===");
+                foreach (var s in allStudents) Console.WriteLine($"{s.Name} - {s.Age} лет");
+
+                Console.WriteLine("\n=== ВСЕ ПРЕПОДАВАТЕЛИ ===");
+                foreach (var t in allTeachers) Console.WriteLine($"{t.Name} - {t.Age} лет");
+
+                Console.WriteLine("\n=== ВСЕ КУРСЫ ===");
+                foreach (var c in allCourses) Console.WriteLine($"\"{c.Title}\" (Преподает: {c.Teacher.Name})");
+            }
+            else if (choice == "0")
+            {
+                break;
+            }
         }
     }
