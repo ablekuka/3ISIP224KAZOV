@@ -48,8 +48,15 @@ public class Course
 {
     internal class Program
     {
-        static void Main(string[] args)
-        {
-        }
+    static List<Student> allStudents = new List<Student>();
+    static List<Teacher> allTeachers = new List<Teacher>();
+    static List<Course> allCourses = new List<Course>();
+
+    static void Main(string[] args)
+    {
+        Teacher t1 = new Teacher("Иван Иванов", 40);
+        allTeachers.Add(t1);
+        allStudents.Add(new Student("Алексей", 20));
+        allCourses.Add(new Course("C# Базовый", t1));
     }
 }
