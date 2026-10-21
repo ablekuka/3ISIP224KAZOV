@@ -72,5 +72,37 @@ public class Course
 
             string choice = Console.ReadLine();
 
+            if (choice == "1")
+            {
+                Console.Write("Имя студента: ");
+                string name = Console.ReadLine();
+                Console.Write("Возраст студента: ");
+                int age = int.Parse(Console.ReadLine());
+
+                if (age <= 0 || string.IsNullOrWhiteSpace(name))
+                {
+                    Console.WriteLine("Ошибка: некорректные данные!");
+                    continue;
+                }
+
+                allStudents.Add(new Student(name, age));
+                Console.WriteLine("Студент добавлен.");
+            }
+            else if (choice == "2")
+            {
+                Console.Write("Имя преподавателя: ");
+                string name = Console.ReadLine();
+                Console.Write("Возраст преподавателя: ");
+                int age = int.Parse(Console.ReadLine());
+
+                if (age <= 0 || string.IsNullOrWhiteSpace(name))
+                {
+                    Console.WriteLine("Ошибка: некорректные данные!");
+                    continue;
+                }
+
+                allTeachers.Add(new Teacher(name, age));
+                Console.WriteLine("Преподаватель добавлен.");
+            }
         }
     }
