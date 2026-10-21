@@ -58,5 +58,19 @@ public class Course
         allTeachers.Add(t1);
         allStudents.Add(new Student("Алексей", 20));
         allCourses.Add(new Course("C# Базовый", t1));
+        while (true)
+        {
+            Console.WriteLine("\n--- МЕНЮ ---");
+            Console.WriteLine("1. Добавить студента");
+            Console.WriteLine("2. Добавить преподавателя");
+            Console.WriteLine("3. Создать курс");
+            Console.WriteLine("4. Записать студента на курс");
+            Console.WriteLine("5. Показать информацию о курсе");
+            Console.WriteLine("6. Показать все списки");
+            Console.WriteLine("0. Выход");
+            Console.Write("Выберите действие: ");
+
+            string choice = Console.ReadLine();
+
+        }
     }
-}
