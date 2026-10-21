@@ -104,5 +104,45 @@ public class Course
                 allTeachers.Add(new Teacher(name, age));
                 Console.WriteLine("Преподаватель добавлен.");
             }
+            else if (choice == "3")
+            {
+                Console.Write("Название курса: ");
+                string title = Console.ReadLine();
+                Console.Write("Имя преподавателя для курса: ");
+                string teacherName = Console.ReadLine();
+
+                Teacher teacher = allTeachers.FirstOrDefault(t => t.Name == teacherName);
+
+                if (teacher == null)
+                {
+                    Console.WriteLine("Преподаватель не найден!");
+                }
+                else
+                {
+                    allCourses.Add(new Course(title, teacher));
+                    Console.WriteLine("Курс создан.");
+                }
+            }
+            else if (choice == "4")
+            {
+                Console.Write("Имя студента: ");
+                string sName = Console.ReadLine();
+                Console.Write("Название курса: ");
+                string cTitle = Console.ReadLine();
+
+                Student student = allStudents.FirstOrDefault(s => s.Name == sName);
+                Course course = allCourses.FirstOrDefault(c => c.Title == cTitle);
+
+                if (student != null && course != null)
+                {
+                    course.Students.Add(student);
+                    student.Courses.Add(course);
+                    Console.WriteLine("Студент записан на курс.");
+                }
+                else
+                {
+                    Console.WriteLine("Студент или курс не найдены.");
+                }
+            }
         }
     }
