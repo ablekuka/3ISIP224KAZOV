@@ -12,7 +12,7 @@ namespace ConsoleApp1
     {
         public string Name;
         public TypeItem Type;
-        public int Bonus; 
+        public int Bonus;
 
         public Equipment(string name, TypeItem type, int bonus)
         {
@@ -22,7 +22,7 @@ namespace ConsoleApp1
         }
     }
 
-   
+
     public class Character
     {
         public string Name;
@@ -156,7 +156,7 @@ namespace ConsoleApp1
         }
     }
 
- 
+
     public class BossVvg : Goblin
     {
         public BossVvg(Random rand) : base("Босс ВВГ", (int)(40 * 2.0), (int)(12 * 1.5), (int)(4 * 1.2))
@@ -196,10 +196,161 @@ namespace ConsoleApp1
             }
         }
     }
+
+
     internal class Program
     {
         static void Main(string[] args)
         {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            Random rand = new Random();
+
+            Console.WriteLine("=== МИНИ-РОГАЛИК ===");
+            Console.Write("Введите имя героя: ");
+            string name = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(name)) name = "Герой";
+
+            Player player = new Player(name);
+            int turn = 0;
+
+            while (player.CurrentHp > 0)
+            {
+                turn++;
+                Console.WriteLine($"\n--- ХОД {turn} ---");
+                Console.WriteLine($"Вы: {player.Name} | HP: {player.CurrentHp}/{player.MaxHp} | Атака: {player.GetTotalAttack()} | Защита: {player.GetTotalDefense()}");
+
+                if (turn % 10 == 0)
+                {
+                    Console.WriteLine("\nПОЯВИЛСЯ БОСС!");
+
+                    Enemy boss;
+                    int bossType = rand.Next(1, 5);
+                    if (bossType == 1) boss = new BossVvg(rand);
+                    else if (bossType == 2) boss = new BossKowalski(rand);
+                    else if (bossType == 3) boss = new BossArchmageCpp(rand);
+                    else boss = new BossPestovCMinusMinus(rand);
+
+                    Battle(player, boss, rand);
+                }
+                else
+                {
+                    if (rand.Next(1, 101) <= 50)
+                    {
+                        OpenChest(player, rand);
+                    }
+                    else
+                    {
+                        Enemy enemy;
+                        int enemyType = rand.Next(1, 4);
+                        if (enemyType == 1) enemy = new Goblin(rand);
+                        else if (enemyType == 2) enemy = new Skeleton(rand);
+                        else enemy = new Mage(rand);
+
+                        Battle(player, enemy, rand);
+                    }
+                }
+
+                if (player.CurrentHp > 0)
+                {
+                    Console.WriteLine("\nНажмите любую клавишу для перехода к следующему ходу...");
+                    Console.ReadKey();
+                }
+            }
+
+            Console.WriteLine($"\nИгра окончена! Вы погибли на {turn} ходу.");
+            Console.ReadKey();
+
+
+
+            void Battle(Player p, Enemy e, Random r)
+            {
+                Console.WriteLine($"" +
+                    $"" +
+                    $"Вы встретили: {e.Name} (HP: {e.MaxHp}, Атака: {e.BaseAttack})");
+
+                while (p.CurrentHp > 0 && e.CurrentHp > 0)
+                {
+                    bool playerIsDefending = false;
+
+                    if (p.IsFrozen)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Blue;
+                        Console.WriteLine($"{p.Name} заморожен и пропускает свой ход!");
+                        Console.ResetColor();
+                        p.IsFrozen = false;
+                    }
+                    else
+                    {
+                        Console.WriteLine("\nВыберите действие:\n1. Атака\n2. Защита");
+                        string input = Console.ReadLine();
+
+                        if (input == "2")
+                        {
+                            playerIsDefending = true;
+                            Console.WriteLine("Вы встали в защитную стойку.");
+                        }
+                        else
+                        {
+                            int dmg = p.GetTotalAttack() - e.BaseDefense;
+                            if (dmg < 1) dmg = 1;
+                            e.CurrentHp -= dmg;
+                            if (e.CurrentHp < 0) e.CurrentHp = 0;
+                            Console.WriteLine($"⚔Вы ударили {e.Name} на {dmg} урона. У него осталось {e.CurrentHp} HP.");
+                        }
+                    }
+
+                    if (e.CurrentHp > 0)
+                    {
+                        e.Attack(p, r, playerIsDefending);
+                    }
+                }
+
+                if (p.CurrentHp > 0)
+                {
+                    Console.WriteLine($"Победа над {e.Name}!");
+                }
+            }
+
+            void OpenChest(Player p, Random r)
+            {
+                Console.WriteLine("\nВы нашли сундук!");
+
+                int chestType = r.Next(1, 4);
+
+                if (chestType == 1)
+                {
+                    p.CurrentHp = p.MaxHp;
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Вы нашли Зелье Лечения! HP полностью восстановлено.");
+                    Console.ResetColor();
+                }
+                else if (chestType == 2)
+                {
+                    Equipment newWeapon = new Equipment("Ржавый меч", TypeItem.Weapon, r.Next(5, 20));
+                    Console.WriteLine($" Найдено: {newWeapon.Name} (Атака: +{newWeapon.Bonus})");
+                    Console.WriteLine($"У вас сейчас: {p.Weapon.Name} (Атака: +{p.Weapon.Bonus})");
+                    Console.Write("Взять его? (1 - Да, другое - Выбросить): ");
+
+                    if (Console.ReadLine() == "1")
+                    {
+                        p.Weapon = newWeapon;
+                        Console.WriteLine("Вы экипировали новое оружие!");
+                    }
+                }
+                else
+                {
+                    Equipment newArmor = new Equipment("Кожаный жилет", TypeItem.Armor, r.Next(4, 15));
+                    Console.WriteLine($"Найдена броня: {newArmor.Name} (Защита: +{newArmor.Bonus})");
+                    Console.WriteLine($"У вас сейчас: {p.Armor.Name} (Защита: +{p.Armor.Bonus})");
+                    Console.Write("Взять ее? (1 - Да, другое - Выбросить): ");
+
+                    if (Console.ReadLine() == "1")
+                    {
+                        p.Armor = newArmor;
+                        Console.WriteLine("Вы экипировали новую броню!");
+                    }
+                }
+            }
         }
     }
 }
