@@ -5,181 +5,184 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ConsoleApp1
+{
 
     public abstract class Person
-{
-    public string Name { get; set; }
-    public int Age { get; set; }
-
-    public Person(string name, int age)
     {
-        Name = name;
-        Age = age;
+        public string Name { get; set; }
+        public int Age { get; set; }
+
+        public Person(string name, int age)
+        {
+            Name = name;
+            Age = age;
+        }
     }
-}
-public class Student : Person
-{
-    public List<Course> Courses { get; set; } = new List<Course>();
-
-    public Student(string name, int age) : base(name, age) { }
-}
-
-
-
-public class Teacher : Person
-{
-    public Teacher(string name, int age) : base(name, age) { }
-}
-
-public class Course
-{
-    public string Title { get; set; }
-    public Teacher Teacher { get; set; }
-
-    public List<Student> Students { get; set; } = new List<Student>();
-
-    public Course(string title, Teacher teacher)
+    public class Student : Person
     {
-        Title = title;
-        Teacher = teacher;
-    }
-}
+        public List<Course> Courses { get; set; } = new List<Course>();
 
-{
+        public Student(string name, int age) : base(name, age) { }
+    }
+
+
+
+    public class Teacher : Person
+    {
+        public Teacher(string name, int age) : base(name, age) { }
+    }
+
+    public class Course
+    {
+        public string Title { get; set; }
+        public Teacher Teacher { get; set; }
+
+        public List<Student> Students { get; set; } = new List<Student>();
+
+        public Course(string title, Teacher teacher)
+        {
+            Title = title;
+            Teacher = teacher;
+        }
+    }
+
     internal class Program
     {
-    static List<Student> allStudents = new List<Student>();
-    static List<Teacher> allTeachers = new List<Teacher>();
-    static List<Course> allCourses = new List<Course>();
+        static List<Student> allStudents = new List<Student>();
+        static List<Teacher> allTeachers = new List<Teacher>();
+        static List<Course> allCourses = new List<Course>();
 
-    static void Main(string[] args)
-    {
-        Teacher t1 = new Teacher("Иван Иванов", 40);
-        allTeachers.Add(t1);
-        allStudents.Add(new Student("Алексей", 20));
-        allCourses.Add(new Course("C# Базовый", t1));
-        while (true)
+        static void Main(string[] args)
         {
-            Console.WriteLine("\n--- МЕНЮ ---");
-            Console.WriteLine("1. Добавить студента");
-            Console.WriteLine("2. Добавить преподавателя");
-            Console.WriteLine("3. Создать курс");
-            Console.WriteLine("4. Записать студента на курс");
-            Console.WriteLine("5. Показать информацию о курсе");
-            Console.WriteLine("6. Показать все списки");
-            Console.WriteLine("0. Выход");
-            Console.Write("Выберите действие: ");
-
-            string choice = Console.ReadLine();
-
-            if (choice == "1")
+            Teacher t1 = new Teacher("Иван Иванов", 40);
+            allTeachers.Add(t1);
+            allStudents.Add(new Student("Алексей", 20));
+            allCourses.Add(new Course("C# Базовый", t1));
+            while (true)
             {
-                Console.Write("Имя студента: ");
-                string name = Console.ReadLine();
-                Console.Write("Возраст студента: ");
-                int age = int.Parse(Console.ReadLine());
+                Console.WriteLine("\n--- МЕНЮ ---");
+                Console.WriteLine("1. Добавить студента");
+                Console.WriteLine("2. Добавить преподавателя");
+                Console.WriteLine("3. Создать курс");
+                Console.WriteLine("4. Записать студента на курс");
+                Console.WriteLine("5. Показать информацию о курсе");
+                Console.WriteLine("6. Показать все списки");
+                Console.WriteLine("0. Выход");
+                Console.Write("Выберите действие: ");
 
-                if (age <= 0 || string.IsNullOrWhiteSpace(name))
+                string choice = Console.ReadLine();
+
+                if (choice == "1")
                 {
-                    Console.WriteLine("Ошибка: некорректные данные!");
-                    continue;
-                }
+                    Console.Write("Имя студента: ");
+                    string name = Console.ReadLine();
+                    Console.Write("Возраст студента: ");
+                    int age = int.Parse(Console.ReadLine());
 
-                allStudents.Add(new Student(name, age));
-                Console.WriteLine("Студент добавлен.");
-            }
-            else if (choice == "2")
-            {
-                Console.Write("Имя преподавателя: ");
-                string name = Console.ReadLine();
-                Console.Write("Возраст преподавателя: ");
-                int age = int.Parse(Console.ReadLine());
-
-                if (age <= 0 || string.IsNullOrWhiteSpace(name))
-                {
-                    Console.WriteLine("Ошибка: некорректные данные!");
-                    continue;
-                }
-
-                allTeachers.Add(new Teacher(name, age));
-                Console.WriteLine("Преподаватель добавлен.");
-            }
-            else if (choice == "3")
-            {
-                Console.Write("Название курса: ");
-                string title = Console.ReadLine();
-                Console.Write("Имя преподавателя для курса: ");
-                string teacherName = Console.ReadLine();
-
-                Teacher teacher = allTeachers.FirstOrDefault(t => t.Name == teacherName);
-
-                if (teacher == null)
-                {
-                    Console.WriteLine("Преподаватель не найден!");
-                }
-                else
-                {
-                    allCourses.Add(new Course(title, teacher));
-                    Console.WriteLine("Курс создан.");
-                }
-            }
-            else if (choice == "4")
-            {
-                Console.Write("Имя студента: ");
-                string sName = Console.ReadLine();
-                Console.Write("Название курса: ");
-                string cTitle = Console.ReadLine();
-
-                Student student = allStudents.FirstOrDefault(s => s.Name == sName);
-                Course course = allCourses.FirstOrDefault(c => c.Title == cTitle);
-
-                if (student != null && course != null)
-                {
-                    course.Students.Add(student);
-                    student.Courses.Add(course);
-                    Console.WriteLine("Студент записан на курс.");
-                }
-                else
-                {
-                    Console.WriteLine("Студент или курс не найдены.");
-                }
-            }
-            else if (choice == "5")
-            {
-                Console.Write("Введите название курса: ");
-                string cTitle = Console.ReadLine();
-
-                Course course = allCourses.FirstOrDefault(c => c.Title == cTitle);
-
-                if (course != null)
-                {
-                    Console.WriteLine($"\nКурс: {course.Title}");
-                    Console.WriteLine($"Преподаватель: {course.Teacher.Name}");
-                    Console.WriteLine("Студенты на курсе:");
-                    foreach (var student in course.Students)
+                    if (age <= 0 || string.IsNullOrWhiteSpace(name))
                     {
-                        Console.WriteLine($"- {student.Name} ({student.Age} лет)");
+                        Console.WriteLine("Ошибка: некорректные данные!");
+                        continue;
+                    }
+
+                    allStudents.Add(new Student(name, age));
+                    Console.WriteLine("Студент добавлен.");
+                }
+                else if (choice == "2")
+                {
+                    Console.Write("Имя преподавателя: ");
+                    string name = Console.ReadLine();
+                    Console.Write("Возраст преподавателя: ");
+                    int age = int.Parse(Console.ReadLine());
+
+                    if (age <= 0 || string.IsNullOrWhiteSpace(name))
+                    {
+                        Console.WriteLine("Ошибка: некорректные данные!");
+                        continue;
+                    }
+
+                    allTeachers.Add(new Teacher(name, age));
+                    Console.WriteLine("Преподаватель добавлен.");
+                }
+                else if (choice == "3")
+                {
+                    Console.Write("Название курса: ");
+                    string title = Console.ReadLine();
+                    Console.Write("Имя преподавателя для курса: ");
+                    string teacherName = Console.ReadLine();
+
+                    Teacher teacher = allTeachers.FirstOrDefault(t => t.Name == teacherName);
+
+                    if (teacher == null)
+                    {
+                        Console.WriteLine("Преподаватель не найден!");
+                    }
+                    else
+                    {
+                        allCourses.Add(new Course(title, teacher));
+                        Console.WriteLine("Курс создан.");
                     }
                 }
-                else
+                else if (choice == "4")
                 {
-                    Console.WriteLine("Курс не найден.");
+                    Console.Write("Имя студента: ");
+                    string sName = Console.ReadLine();
+                    Console.Write("Название курса: ");
+                    string cTitle = Console.ReadLine();
+
+                    Student student = allStudents.FirstOrDefault(s => s.Name == sName);
+                    Course course = allCourses.FirstOrDefault(c => c.Title == cTitle);
+
+                    if (student != null && course != null)
+                    {
+                        course.Students.Add(student);
+                        student.Courses.Add(course);
+                        Console.WriteLine("Студент записан на курс.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Студент или курс не найдены.");
+                    }
                 }
-            }
-            else if (choice == "6")
-            {
-                Console.WriteLine("\n=== ВСЕ СТУДЕНТЫ ===");
-                foreach (var s in allStudents) Console.WriteLine($"{s.Name} - {s.Age} лет");
+                else if (choice == "5")
+                {
+                    Console.Write("Введите название курса: ");
+                    string cTitle = Console.ReadLine();
 
-                Console.WriteLine("\n=== ВСЕ ПРЕПОДАВАТЕЛИ ===");
-                foreach (var t in allTeachers) Console.WriteLine($"{t.Name} - {t.Age} лет");
+                    Course course = allCourses.FirstOrDefault(c => c.Title == cTitle);
 
-                Console.WriteLine("\n=== ВСЕ КУРСЫ ===");
-                foreach (var c in allCourses) Console.WriteLine($"\"{c.Title}\" (Преподает: {c.Teacher.Name})");
-            }
-            else if (choice == "0")
-            {
-                break;
+                    if (course != null)
+                    {
+                        Console.WriteLine($"\nКурс: {course.Title}");
+                        Console.WriteLine($"Преподаватель: {course.Teacher.Name}");
+                        Console.WriteLine("Студенты на курсе:");
+                        foreach (var student in course.Students)
+                        {
+                            Console.WriteLine($"- {student.Name} ({student.Age} лет)");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Курс не найден.");
+                    }
+                }
+                else if (choice == "6")
+                {
+                    Console.WriteLine("\n=== ВСЕ СТУДЕНТЫ ===");
+                    foreach (var s in allStudents) Console.WriteLine($"{s.Name} - {s.Age} лет");
+
+                    Console.WriteLine("\n=== ВСЕ ПРЕПОДАВАТЕЛИ ===");
+                    foreach (var t in allTeachers) Console.WriteLine($"{t.Name} - {t.Age} лет");
+
+                    Console.WriteLine("\n=== ВСЕ КУРСЫ ===");
+                    foreach (var c in allCourses) Console.WriteLine($"\"{c.Title}\" (Преподает: {c.Teacher.Name})");
+                }
+                else if (choice == "0")
+                {
+                    break;
+                }
             }
         }
     }
+}
+
